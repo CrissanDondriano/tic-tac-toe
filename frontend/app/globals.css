@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-canvas font-sans text-ink antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .card {
+    @apply rounded-[28px] bg-white shadow-card;
+  }
+  .card-dark {
+    @apply rounded-[32px] bg-ink text-white;
+  }
+
+  .tile {
+    @apply relative flex aspect-square touch-manipulation select-none items-center justify-center rounded-[22px] bg-canvas transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/50;
+  }
+  .tile:not(:disabled):active {
+    transform: scale(0.96);
+  }
+
+  .btn {
+    @apply inline-flex min-h-12 touch-manipulation select-none items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/40 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary {
+    @apply btn bg-brand text-white shadow-brand hover:bg-brand-soft;
+  }
+  .btn-secondary {
+    @apply btn bg-white text-ink ring-[1.5px] ring-inset ring-line hover:bg-canvas;
+  }
+  .btn-danger {
+    @apply btn bg-x-deep text-white hover:bg-x;
+  }
+
+  .input {
+    @apply min-h-12 w-full rounded-2xl bg-canvas px-4 text-base text-ink ring-[1.5px] ring-inset ring-line placeholder:text-ink-soft/70 transition focus:outline-none focus:ring-2 focus:ring-brand;
+  }
+
+  .page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-16;
+  }
+}
+
+@layer utilities {
+  .animate-pop {
+    animation: pop 0.22s ease-out;
+  }
+  .animate-rise {
+    animation: rise 0.3s ease-out;
+  }
+  .draw-stroke {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw-stroke 0.35s ease-out forwards;
+  }
+  .win-tile {
+    animation: win-pulse 0.7s ease-in-out 2;
+  }
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes draw-stroke {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes win-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+@keyframes confetti {
+  0% { opacity: 1; transform: translate3d(0, -10vh, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
